@@ -94,4 +94,46 @@ public class GuestDao {
 		return null;
 	}
 
+	public void updateOne(GuestVo vo) {
+		String sql="update guest set name=?, pay=? where sabun=?";
+		try {
+			conn=OraDB.getConn();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setInt(2, vo.getPay());
+			pstmt.setInt(3, vo.getSabun());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try{
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2){
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public void deleteOne(int sabun) {
+		String sql="delete from guest where sabun=?";
+		try {
+			conn=OraDB.getConn();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, sabun);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2){
+				e2.printStackTrace();
+			}
+		}
+		
+	}
+
 }
