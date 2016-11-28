@@ -66,4 +66,32 @@ public class GuestDao {
 		
 	}
 
+	public GuestVo selectOne(int sabun) {
+		String sql="select * from guest where sabun=?";
+		try {
+			conn=OraDB.getConn();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, sabun);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				return new GuestVo(rs.getInt("sabun")
+						, rs.getString("name")
+						, rs.getDate("nalja")
+						, rs.getInt("pay"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2){
+				e2.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+
 }

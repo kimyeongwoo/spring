@@ -20,7 +20,12 @@
 	<bean name="/add.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
 		<property name="viewName" value="guest/addform"></property>
 	</bean>
-	<bean name="/insert.do" class="com.hb.controller.AddController"></bean>
+	<bean name="/insert.do" class="com.hb.controller.AddController">
+		<constructor-arg ref="dao"></constructor-arg>
+	</bean>
+	<bean name="/detail.do" class="com.hb.controller.DetailController">
+		<property name="dao" ref="dao"></property>
+	</bean>
 <!-- viewResolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/"></property>

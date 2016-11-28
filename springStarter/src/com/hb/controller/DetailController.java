@@ -9,26 +9,22 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.hb.model.GuestDao;
 import com.hb.model.GuestVo;
 
-public class AddController implements Controller {
-	GuestDao dao;
-	
-	public AddController(GuestDao dao) {
+public class DetailController implements Controller {
+	private GuestDao dao;
+	public void setDao(GuestDao dao) {
 		this.dao = dao;
 	}
-
+	
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest req,
 			HttpServletResponse res) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		GuestVo bean = new GuestVo(
-				Integer.parseInt(req.getParameter("sabun"))
-				, req.getParameter("name")
-				, null
-				, Integer.parseInt(req.getParameter("pay")
-				));
+		String param=req.getParameter("idx");
+		int sabun=Integer.parseInt(param);
+		ModelAndView mav=new ModelAndView();
+		GuestVo bean=dao.selectOne(sabun);
+		mav.addObject("dto",bean);
+		mav.setViewName("guest/detail");
 		
-		dao.insertOne(bean);
-		mav.setViewName("redirect:/list.do");
 		return mav;
 	}
 
